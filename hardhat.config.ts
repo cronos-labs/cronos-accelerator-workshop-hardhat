@@ -1,49 +1,43 @@
 import '@nomiclabs/hardhat-waffle';
 import 'hardhat-gas-reporter';
 import '@nomiclabs/hardhat-etherscan';
-import {
-  COINMARKETCAP_API,
-  CRONOSCAN_API_KEY,
-  CRONOS_MAINNET_RPC,
-  CRONOS_TESTNET_RPC,
-  PRIVATE_KEY,
-} from './constants';
+import { COINMARKETCAP_API, mainnet, testnet, PRIVATE_KEY } from './constants';
 
 const config = {
   networks: {
     cronosTestnet: {
-      url: CRONOS_TESTNET_RPC,
+      url: testnet.CRONOS_TESTNET_RPC,
       chainId: 338,
-      accounts: PRIVATE_KEY !== undefined ? [PRIVATE_KEY] : [],
+      accounts: [PRIVATE_KEY],
       gasPrice: 'auto',
     },
     cronos: {
-      url: CRONOS_MAINNET_RPC,
+      url: mainnet.CRONOS_MAINNET_RPC,
       chainId: 25,
-      accounts: PRIVATE_KEY !== undefined ? [PRIVATE_KEY] : [],
+      accounts: [PRIVATE_KEY],
       gasPrice: 'auto',
     },
   },
   etherscan: {
     apiKey: {
-      cronosTestnet: CRONOSCAN_API_KEY,
-      cronos: CRONOSCAN_API_KEY,
+      cronosTestnet: testnet.EXPLORER_TESTNET_API_KEY,
+      cronos: mainnet.EXPLORER_MAINNET_API_KEY,
     },
     customChains: [
-      {
-        network: 'cronosTestnet',
-        chainId: 338,
-        urls: {
-          apiURL: 'https://cronos.org/explorer/testnet3/api',
-          browserURL: 'https://cronos.org/explorer/testnet3/',
-        },
-      },
       {
         network: 'cronos',
         chainId: 25,
         urls: {
-          apiURL: 'https://api.cronoscan.com/api',
-          browserURL: 'https://cronoscan.com',
+          apiURL: mainnet.EXPLORER_MAINNET_API_URL,
+          browserURL: mainnet.EXPLORER_MAINNET_URL,
+        },
+      },
+      {
+        network: 'cronosTestnet',
+        chainId: 338,
+        urls: {
+          apiURL: testnet.EXPLORER_TESTNET_API_URL,
+          browserURL: testnet.EXPLORER_TESTNET_URL,
         },
       },
     ],
