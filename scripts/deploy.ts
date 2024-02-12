@@ -1,10 +1,17 @@
 import { Contract, ContractFactory } from 'ethers';
 import { ethers } from 'hardhat';
 
+/**
+ * This script deploys the TipCreator contract to the blockchain.
+ */
 const deploy = {
   /**
    * Main function to deploy the TipCreator contract.
-   * @returns {Promise<void>}
+   * Utilizes ethers.js to create a contract factory and deploy the TipCreator contract.
+   * Once deployed, the contract address is logged to the console.
+   *
+   * @returns {Promise<void>} - A promise that resolves when the contract is successfully deployed,
+   *                            or rejects with an error if the deployment fails.
    */
   async main(): Promise<void> {
     try {

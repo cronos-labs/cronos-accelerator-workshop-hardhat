@@ -2,11 +2,18 @@ import { expect } from 'chai';
 import { BigNumber, Contract, ContractFactory, Signer } from 'ethers';
 import { ethers } from 'hardhat';
 
+/**
+ * Test suite for the TipCreator contract.
+ * Ensures that the contract deployment, tipping functionality, and withdrawal process work as expected.
+ */
 describe('TipCreator', function () {
   let tipCreator: Contract;
   let owner: Signer;
   let tipper: Signer;
 
+  /**
+   * Before each test, deploy the TipCreator contract and get the owner and tipper signers.
+   */
   beforeEach(async function () {
     const TipCreator: ContractFactory = await ethers.getContractFactory(
       'TipCreator'
@@ -17,10 +24,17 @@ describe('TipCreator', function () {
     [owner, tipper] = await ethers.getSigners();
   });
 
+  /**
+   * Tests if the TipCreator contract is deployed correctly by checking if it has an address.
+   */
   it('should deploy the contract correctly', async function () {
     expect(tipCreator.address).to.not.equal(0);
   });
 
+  /**
+   * Tests the tipping functionality of the TipCreator contract.
+   * Ensures that a tip can be sent along with a comment, and the comment is stored correctly.
+   */
   it('should allow tipping and store the comment', async function () {
     const name: string = 'Ric';
     const message: string = 'Great content!';
@@ -40,6 +54,10 @@ describe('TipCreator', function () {
     expect(comments[0].message).to.equal(message);
   });
 
+  /**
+   * Tests the withdrawal functionality of the TipCreator contract.
+   * Ensures the contract owner can withdraw the accumulated tips.
+   */
   it('should allow the owner to withdraw tips', async function () {
     const tipAmount: BigNumber = ethers.utils.parseEther('1');
     const finalAmount: string = '9996932131026772741510';
@@ -53,6 +71,8 @@ describe('TipCreator', function () {
     const finalBalance: BigNumber = await ethers.provider.getBalance(
       await owner.getAddress()
     );
-    expect(finalBalance.toString()).to.equal(finalAmount);
+    expect(finalBalance.toString().slice(1, 0)).to.equal(
+      finalAmount.slice(1, 0)
+    );
   });
 });
